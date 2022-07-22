@@ -1,0 +1,64 @@
+@import "../styles/mixins";
+
+.container {
+  width: 20%;
+  border: 1px solid black;
+  margin: 1rem 1rem;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+
+  @include respond(tab-land) {
+    width: 30%;
+  }
+
+  @include respond(tab-port) {
+    width: 40%;
+  }
+
+  @include respond(phone) {
+    width: 90%;
+  }
+
+  @include respond(big-desktop) {
+    width: 15%;
+  }
+}
+
+.imageContainer {
+  min-width: 70%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+
+  img {
+    width: 100%;
+  }
+}
+
+.titleContainer {
+  width: 100%;
+  padding: 0 1rem;
+  margin-top: 1rem;
+}
+
+.checkBoxContainer {
+  width: 100%;
+  padding: 0 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+
+  label {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: 1.4rem;
+
+    input {
+      margin-right: 1rem;
+    }
+  }
+}
