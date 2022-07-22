@@ -15,7 +15,6 @@ const Item = (props) => {
         id={router.query.id}
         thumbnailUrl={router.query.thumbnailUrl}
         albumId={router.query.albumId}
-        checkboxHandler={router.query.checkboxHandler}
       />
     </div>
   );

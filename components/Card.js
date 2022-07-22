@@ -1,24 +1,42 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/router";
 
 import styles from "./Card.module.scss";
+import { itemsActions } from "../store/itemsSlice";
 
-const Card = ({
-  title,
-  id,
-  thumbnailUrl,
-  albumId,
-  checkboxHandler,
-  itemDetailRouteHandler,
-}) => {
+const Card = ({ title, id, thumbnailUrl, albumId }) => {
   const [isChecked, setIsChecked] = useState(false);
+  const router = useRouter();
 
-  const checkHandler = () => {
-    checkboxHandler(!isChecked, id);
+  const itemsState = useSelector((state) => state.items);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    itemsState.items.forEach((item) => {
+      if (item.toString() === id.toString()) {
+        setIsChecked(true);
+      }
+    });
+  }, []);
+
+  const checkboxHandler = () => {
+    // When newly checked add to list
+    if (!isChecked) {
+      dispatch(itemsActions.add({ isChecked: !isChecked, id: id }));
+      setIsChecked((prevState) => !prevState);
+      return;
+    }
+
+    dispatch(itemsActions.remove({ isChecked: !isChecked, id: id }));
     setIsChecked((prevState) => !prevState);
   };
 
   const imageClickHandler = () => {
-    itemDetailRouteHandler(title, id, thumbnailUrl, albumId, checkboxHandler);
+    router.push({
+      pathname: "/items/" + id,
+      query: { title, id, thumbnailUrl, albumId },
+    });
   };
 
   return (
@@ -31,7 +49,11 @@ const Card = ({
       </div>
       <div className={styles.checkBoxContainer}>
         <label>
-          <input type="checkbox" checked={isChecked} onChange={checkHandler} />
+          <input
+            type="checkbox"
+            checked={isChecked}
+            onChange={checkboxHandler}
+          />
           Check me!
         </label>
       </div>
